@@ -24,7 +24,7 @@ def send_email(message):
     server.starttls()
     server.login(SENDER, PASSWORD)
 
-    subject = "📢 New University Notice!"
+    subject = "New University Notice!"
     msg = f"Subject: {subject}\n\n{message}"
 
     for r in RECEIVERS:
