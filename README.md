@@ -1,40 +1,38 @@
 # 📢 University Notice Bot
 
-A simple automation tool that monitors the university notice page and sends an email when a new notice is published.
+An automated system that monitors the university notice page and sends email notifications when new notices are published — removing the need for manual checking.
 
 ---
 
 ## 🚀 Overview
 
-This bot automatically checks:
+Students often miss important notices because checking the university website regularly is inconvenient.
+
+This project solves that problem by automatically monitoring:
+
 https://fas.wyb.ac.lk/notices/
 
-Every few minutes, it:
-- Fetches the latest notice 🌐  
-- Compares with previous data 🧠  
-- Sends an email if a new notice is detected 📧  
+and sending alerts whenever a new notice appears.
 
 ---
 
-## 🎯 Purpose
+## ⚙️ How It Works
 
-Manually checking the website is inefficient.  
-This project automates the process to ensure no important notice is missed.
-
----
-
-## ⚙️ Tech Stack
-
-- Python 🐍  
-- BeautifulSoup (Web Scraping)  
-- SMTP (Email Notifications)  
-- GitHub Actions (Automation)
+1. Fetches the latest notice from the website 🌐  
+2. Extracts and reads the notice content  
+3. Compares it with the previously stored notice 🧠  
+4. If a new notice is detected:
+   - Sends email notifications 📧  
+5. Updates stored data to prevent duplicate alerts  
 
 ---
 
-## ⏱️ Automation
+## ⏱️ Automation System
 
-Runs automatically using GitHub Actions:
+The system runs automatically using:
+
+- GitHub Actions (execution environment)  
+- External cron trigger (for reliable scheduling)  
 
 ```yaml
 cron: "*/3 * * * *"
