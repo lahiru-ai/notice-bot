@@ -1,1 +1,36 @@
+name: Check University Notices
 
+on:
+  schedule:
+    - cron: "*/5 * * * *"   # runs every 5 minutes
+  workflow_dispatch:        # allows manual run
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.x"
+
+      - name: Install requirements
+        run: pip install -r requirements.txt
+
+      - name: Run script
+        env:
+          SENDER_EMAIL: ${{ secrets.SENDER_EMAIL }}
+          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+        run: python main.py
+
+      - name: Save last notice
+        run: |
+          git config --global user.name "bot"
+          git config --global user.email "bot@github.com"
+          git add last_notice.txt
+          git commit -m "update notice" || echo "No changes"
+          git push
