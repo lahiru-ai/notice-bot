@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import smtplib
 import os
 from email.mime.text import MIMEText
+
 URL = "https://fas.wyb.ac.lk/notices/"
 
 SENDER = os.getenv("SENDER_EMAIL")
@@ -12,16 +13,18 @@ RECEIVERS = [
     "lahirumadhushan566@gmail.com"
 ]
 
+CACHE_FILE = "last_notice.txt"
+
 # Load last notice
-try:
-    with open("last_notice.txt", "r") as f:
+if os.path.exists(CACHE_FILE):
+    with open(CACHE_FILE, "r") as f:
         last_notice = f.read().strip()
-except:
+else:
     last_notice = ""
 
 def send_email(message):
     msg = MIMEText(message, "plain", "utf-8")
-    msg["Subject"] = "New University Notice"   # ❌ remove emoji here
+    msg["Subject"] = "New University Notice"
     msg["From"] = SENDER
     msg["To"] = ", ".join(RECEIVERS)
 
@@ -41,7 +44,7 @@ if notice != last_notice:
     print("🔥 New Notice:", notice)
     send_email(notice)
 
-    with open("last_notice.txt", "w") as f:
+    with open(CACHE_FILE, "w") as f:
         f.write(notice)
 else:
     print("No new notice")
