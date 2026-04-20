@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import smtplib
 import os
-
+from email.mime.text import MIMEText
 URL = "https://fas.wyb.ac.lk/notices/"
 
 SENDER = os.getenv("SENDER_EMAIL")
@@ -20,16 +20,16 @@ except:
     last_notice = ""
 
 def send_email(message):
+    msg = MIMEText(message, "plain", "utf-8")
+    msg["Subject"] = "New University Notice"   # ❌ remove emoji here
+    msg["From"] = SENDER
+    msg["To"] = ", ".join(RECEIVERS)
+
     server = smtplib.SMTP("smtp.gmail.com", 587)
     server.starttls()
     server.login(SENDER, PASSWORD)
 
-    subject = "New University Notice!"
-    msg = f"Subject: {subject}\n\n{message}"
-
-    for r in RECEIVERS:
-        server.sendmail(SENDER, r, msg)
-
+    server.sendmail(SENDER, RECEIVERS, msg.as_string())
     server.quit()
 
 response = requests.get(URL, timeout=10)
