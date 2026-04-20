@@ -2,24 +2,28 @@ name: Check University Notices
 
 on:
   schedule:
-    - cron: "*/5 * * * *"   # runs every 5 minutes
-  workflow_dispatch:        # allows manual run
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
 
 jobs:
   run-script:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-      - name: Setup Python
-        uses: actions/setup-python@v4
+      # 🔥 Restore cache
+      - name: Restore last notice
+        uses: actions/cache@v3
+        with:
+          path: last_notice.txt
+          key: notice-cache
+
+      - uses: actions/setup-python@v4
         with:
           python-version: "3.x"
 
-      - name: Install requirements
-        run: pip install -r requirements.txt
+      - run: pip install -r requirements.txt
 
       - name: Run script
         env:
@@ -27,4 +31,9 @@ jobs:
           EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
         run: python main.py
 
-     
+      # 💾 Save cache
+      - name: Save last notice
+        uses: actions/cache@v3
+        with:
+          path: last_notice.txt
+          key: notice-cache
