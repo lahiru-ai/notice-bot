@@ -1,7 +1,7 @@
 name: Check University Notices
 
 # trigger
-
+# keep-alive
 on:
   schedule:
     - cron: "*/5 * * * *"
