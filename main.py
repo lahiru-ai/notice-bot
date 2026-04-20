@@ -11,6 +11,7 @@ PASSWORD = os.getenv("EMAIL_PASSWORD")
 
 RECEIVERS = [
     "lahirumadhushan566@gmail.com"
+    "amjanithyasesadiaththanayaka@gmail.com"
 ]
 
 CACHE_FILE = "last_notice.txt"
