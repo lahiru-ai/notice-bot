@@ -9,10 +9,7 @@ URL = "https://fas.wyb.ac.lk/notices/"
 SENDER = os.getenv("SENDER_EMAIL")
 PASSWORD = os.getenv("EMAIL_PASSWORD")
 
-RECEIVERS = [
-    "lahirumadhushan566@gmail.com"
-    "amjanithyasesadiaththanayaka@gmail.com"
-]
+RECEIVERS = os.getenv("RECEIVER_EMAILS").split(",")
 
 CACHE_FILE = "last_notice.txt"
 
