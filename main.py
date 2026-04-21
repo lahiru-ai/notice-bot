@@ -20,6 +20,9 @@ if os.path.exists(CACHE_FILE):
 else:
     last_notice = ""
 
+def clean(text):
+    return " ".join(text.split())
+    
 def send_email(message):
     msg = MIMEText(message, "plain", "utf-8")
     msg["Subject"] = "New University Notice"
@@ -36,7 +39,8 @@ def send_email(message):
 response = requests.get(URL, timeout=10)
 soup = BeautifulSoup(response.text, "html.parser")
 
-notice = soup.find("h3").text.strip()
+notice = clean(soup.find("h3").text)
+last_notice = clean(last_notice)
 
 if notice != last_notice:
     print("🔥 New Notice:", notice)
