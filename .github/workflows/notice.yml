@@ -1,28 +1,19 @@
 name: Check University Notices
 
-# trigger
-# keep-alive
 on:
   schedule:
     - cron: "*/3 * * * *"
   workflow_dispatch:
-  
+
 permissions:
   contents: write
-  
+
 jobs:
   run-script:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v3
-
-      # 🔥 Restore cache
-      - name: Restore last notice
-        uses: actions/cache@v3
-        with:
-          path: last_notice.txt
-          key: notice-cache
 
       - uses: actions/setup-python@v4
         with:
@@ -37,11 +28,10 @@ jobs:
           RECEIVER_EMAILS: ${{ secrets.RECEIVER_EMAILS }}
         run: python main.py
 
-      # 💾 Save cache
       - name: Save last notice
         run: |
-            git config --global user.name "bot"
-            git config --global user.email "bot@github.com"
-            git add last_notice.txt
-            git commit -m "update notice" || echo "No changes"
-            git push
+          git config --global user.name "bot"
+          git config --global user.email "bot@github.com"
+          git add last_notice.txt
+          git commit -m "update notice" || echo "No changes"
+          git push
