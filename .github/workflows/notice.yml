@@ -6,7 +6,10 @@ on:
   schedule:
     - cron: "*/3 * * * *"
   workflow_dispatch:
-
+  
+permissions:
+  contents: write
+  
 jobs:
   run-script:
     runs-on: ubuntu-latest
@@ -36,7 +39,9 @@ jobs:
 
       # 💾 Save cache
       - name: Save last notice
-        uses: actions/cache@v3
-        with:
-          path: last_notice.txt
-          key: notice-cache
+        run: |
+            git config --global user.name "bot"
+            git config --global user.email "bot@github.com"
+            git add last_notice.txt
+            git commit -m "update notice" || echo "No changes"
+            git push
