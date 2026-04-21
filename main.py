@@ -9,20 +9,21 @@ URL = "https://fas.wyb.ac.lk/notices/"
 SENDER = os.getenv("SENDER_EMAIL")
 PASSWORD = os.getenv("EMAIL_PASSWORD")
 
-RECEIVERS = os.getenv("RECEIVER_EMAILS").split(",")
+emails = os.getenv("RECEIVER_EMAILS", "")
+RECEIVERS = [e.strip() for e in emails.split(",") if e.strip()]
 
 CACHE_FILE = "last_notice.txt"
+
+def clean(text):
+    return " ".join(text.split())
 
 # Load last notice
 if os.path.exists(CACHE_FILE):
     with open(CACHE_FILE, "r") as f:
-        last_notice = f.read().strip()
+        last_notice = clean(f.read())
 else:
     last_notice = ""
 
-def clean(text):
-    return " ".join(text.split())
-    
 def send_email(message):
     msg = MIMEText(message, "plain", "utf-8")
     msg["Subject"] = "New University Notice"
@@ -39,8 +40,12 @@ def send_email(message):
 response = requests.get(URL, timeout=10)
 soup = BeautifulSoup(response.text, "html.parser")
 
-notice = clean(soup.find("h3").text)
-last_notice = clean(last_notice)
+tag = soup.find("h3")
+if not tag:
+    print("No notice found")
+    exit()
+
+notice = clean(tag.text)
 
 if notice != last_notice:
     print("🔥 New Notice:", notice)
