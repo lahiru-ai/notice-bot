@@ -23,13 +23,6 @@ RESULTS_FILE = "last_results.txt"
 def clean(text):
     return " ".join(text.split())
 
-# Load last notice
-if os.path.exists(CACHE_FILE):
-    with open(CACHE_FILE, "r") as f:
-        last_notice = clean(f.read())
-else:
-    last_notice = ""
-
 # Send email
 def send_email(subject, message):
     if not RECEIVERS:
@@ -47,9 +40,6 @@ def send_email(subject, message):
 
     server.sendmail(SENDER, RECEIVERS, msg.as_string())
     server.quit()
-
-response = requests.get(URL, timeout=10)
-soup = BeautifulSoup(response.text, "html.parser")
 
 # Check notices
 def check_notices():
@@ -81,6 +71,7 @@ def check_notices():
 
     except Exception as e:
         print("Error checking notices:", e)
+        
 # Check results
 def check_results():
     try:
