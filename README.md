@@ -19,10 +19,10 @@ and sends email alerts whenever new content appears.
 
 ## ⚙️ How It Works
 
-1. Fetches the latest data from the website 🌐  
+1. Fetches data from university websites 🌐  
 2. Extracts notices and results  
 3. Compares with previously stored data 🧠  
-4. Detects new updates  
+4. Detects newly published updates  
 5. Sends email notifications 📧  
 6. Stores the latest state to prevent duplicates  
 
@@ -30,9 +30,10 @@ and sends email alerts whenever new content appears.
 
 ## ⏱️ Automation
 
-- Runs automatically using **GitHub Actions**
-- Triggered every few minutes using cron scheduling
-- Can be enhanced with external triggers for higher reliability
+The system runs automatically using:
+
+- **GitHub Actions** (execution environment)
+- **External cron trigger (cron-job.org)** for reliable scheduling
 
 ```yaml
 cron: "*/5 * * * *"
