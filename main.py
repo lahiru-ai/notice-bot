@@ -29,6 +29,10 @@ def send_email(subject, message):
         print("No receivers configured")
         return
 
+    if not SENDER or not PASSWORD:
+        print("Email credentials not set")
+        return
+
     msg = MIMEText(message, "plain", "utf-8")
     msg["Subject"] = subject
     msg["From"] = SENDER
@@ -49,7 +53,7 @@ def check_notices():
 
         tag = soup.find("h3")
         if not tag:
-            print("No notice found")
+            print("Page structure changed or no notice found!")
             return
 
         notice = clean(tag.text)
@@ -62,7 +66,10 @@ def check_notices():
 
         if notice != last_notice:
             print("New Notice:", notice)
-            send_email("New University Notice", notice)
+            send_email(
+                "New University Notice",
+                f"{notice}\n\nCheck here: {NOTICE_URL}"
+            )
 
             with open(NOTICE_FILE, "w") as f:
                 f.write(notice)
@@ -97,7 +104,10 @@ def check_results():
         if diff:
             for r in diff:
                 print("New Result:", r)
-                send_email("New Exam Result Published", r)
+                send_email(
+                    "New Exam Result Published",
+                    f"{r}\n\nCheck here: {RESULTS_URL}"
+                )
 
             with open(RESULTS_FILE, "w") as f:
                 f.write("\n".join(new_results))
