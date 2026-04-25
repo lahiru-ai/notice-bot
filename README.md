@@ -1,38 +1,38 @@
-# 📢 University Notice Bot
+# 📢 University Notice & Results Bot
 
-An automated system that monitors the university notice page and sends email notifications when new notices are published — removing the need for manual checking.
+An automated system that monitors university notice and results pages and sends email notifications when new updates are published — eliminating the need for manual checking.
 
 ---
 
 ## 🚀 Overview
 
-Students often miss important notices because checking the university website regularly is inconvenient.
+Students often miss important announcements and exam results because checking the university website regularly is inconvenient.
 
-This project solves that problem by automatically monitoring:
+This bot continuously monitors:
 
-https://fas.wyb.ac.lk/notices/
+- https://fas.wyb.ac.lk/notices/ 📢  
+- https://fas.wyb.ac.lk/results/ 🎓  
 
-and sending alerts whenever a new notice appears.
+and sends email alerts whenever new content appears.
 
 ---
 
 ## ⚙️ How It Works
 
-1. Fetches the latest notice from the website 🌐  
-2. Extracts and reads the notice content  
-3. Compares it with the previously stored notice 🧠  
-4. If a new notice is detected:
-   - Sends email notifications 📧  
-5. Updates stored data to prevent duplicate alerts  
+1. Fetches the latest data from the website 🌐  
+2. Extracts notices and results  
+3. Compares with previously stored data 🧠  
+4. Detects new updates  
+5. Sends email notifications 📧  
+6. Stores the latest state to prevent duplicates  
 
 ---
 
-## ⏱️ Automation System
+## ⏱️ Automation
 
-The system runs automatically using:
-
-- GitHub Actions (execution environment)  
-- External cron trigger (for reliable scheduling)  
+- Runs automatically using **GitHub Actions**
+- Triggered every few minutes using cron scheduling
+- Can be enhanced with external triggers for higher reliability
 
 ```yaml
-cron: "*/3 * * * *"
+cron: "*/5 * * * *"
